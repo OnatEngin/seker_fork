@@ -109,3 +109,6 @@ dist
 
 # config
 /config.json
+
+# databases
+*.db
