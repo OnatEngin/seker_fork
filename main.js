@@ -10,7 +10,7 @@ const QRCode = require('qrcode-terminal');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const assert = require('node:assert');
 const process = require('node:process');
-const hehe = 0;
+
 const config = require('./config.json');
 assert(config.statusgroup !== undefined);
 
