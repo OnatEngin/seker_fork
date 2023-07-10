@@ -54,6 +54,8 @@ const log = {
         },
 
         preamble: (message, contact, chat) => {
+            log.debug(message);
+
             let retval = log.fmt.timestamp(message.timestamp * 1000);
 
             let name = contact.pushname;
@@ -70,7 +72,11 @@ const log = {
 
             retval += " " + ("<" + name.substring(0,12) + ">").padStart(14);
             if (chat.isGroup) {
-                retval += " " + ("("+ chat.name.substring(0,10) +")").padEnd(12);
+                if (chat.name !== undefined) {
+                    retval += " " + ("("+ chat.name.substring(0,10) +")").padEnd(12);
+                } else {
+                    retval += " " + ("("+ "??????????" +")").padEnd(12);
+                }
             }
 
             return retval;
