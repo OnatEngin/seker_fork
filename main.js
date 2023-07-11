@@ -3,6 +3,7 @@
  * hazirlik
  */
 
+
 "use strict";
 
 const {TvApiAdapter} = require('tradingview-api-adapter');
@@ -26,6 +27,8 @@ if (config.usergroups !== undefined) {
 }
 
 console.log("whitelist:", whitelist);
+
+const qry_msg = require ('./db.js');
 
 /*
  * cercop
@@ -54,8 +57,6 @@ const log = {
         },
 
         preamble: (message, contact, chat) => {
-            log.debug(message);
-
             let retval = log.fmt.timestamp(message.timestamp * 1000);
 
             let name = contact.pushname;
@@ -208,8 +209,10 @@ client.on('message_create', async (message) => {
     let chat = await message.getChat();
     let contact = await message.getContact();
     let preamble = log.fmt.preamble(message, contact, chat)
-
-    log.message(preamble, message.body);
+    
+    log.debug(message);
+    log.message(preamble, message.body);    
+    qry_msg();
 });
 
 client.on('message', async (message) => {
@@ -234,6 +237,7 @@ client.on('message', async (message) => {
         logret = ret.replaceAll("\n", "\\n");
     }
     log.command(preamble, message.body, "=>", logret);
+
 });
 
 // example.js'den reject calls kodu
@@ -251,11 +255,15 @@ console.log(process.argv);
 if (process.argv.length == 3 && process.argv[2] === 'devel') {
     log.status("Booting devel ...");
     client.initialize();
+    //client.on('message', async msg => { msg });
+    // let getmsg = log.fmt(client.message.body);
+    //qry_msg(message);
 }
 else if (process.argv.length == 3 && process.argv[2] === 'prod') {
     log.status("Booting prod ...");
     log.debug = (...args) => {};
     client.initialize();
+
 }
 else if (process.argv.length > 3 && process.argv[2] === 'cmd') {
     let message = {
