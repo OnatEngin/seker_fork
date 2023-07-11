@@ -111,4 +111,4 @@ dist
 /config.json
 
 # databases
-*.db
+*.db*
