@@ -21,8 +21,6 @@ db.get(sql, (err, row) => {
   
   });
 
-  const query = 0;
-
 db.close((err) => {
     if (err) {
         return console.error(err.message);
