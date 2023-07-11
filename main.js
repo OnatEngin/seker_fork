@@ -29,7 +29,7 @@ if (config.usergroups !== undefined) {
 console.log("whitelist:", whitelist);
 
 const qry_msg = require ('./db.js');
-
+const uuidv4 = require('uuid').v4;
 /*
  * cercop
  */
@@ -209,10 +209,11 @@ client.on('message_create', async (message) => {
     let chat = await message.getChat();
     let contact = await message.getContact();
     let preamble = log.fmt.preamble(message, contact, chat)
-    
+
     log.debug(message);
-    log.message(preamble, message.body);    
-    qry_msg();
+    log.message(preamble, message.body); 
+    let rd_uuidv = uuidv4();   
+    qry_msg(message.body, rd_uuidv);
 });
 
 client.on('message', async (message) => {
